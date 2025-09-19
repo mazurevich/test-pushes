@@ -63,6 +63,8 @@ model User {
     accounts      Account[]
     sessions      Session[]
     posts         Post[]
+    deviceTokens  DeviceToken[]
+    notificationPreferences UserNotificationPreferences?
 }
 
 model VerificationToken {
@@ -72,3 +74,126 @@ model VerificationToken {
 
     @@unique([identifier, token])
 }
+
+// FCM Token and Device Information
+model DeviceToken {
+    id          String   @id @default(cuid())
+    fcmToken    String   @unique
+    userId      String?  // Optional - can be null for anonymous users
+    deviceId    String?  // Unique device identifier
+    platform    String   // 'android', 'ios', 'web'
+    appVersion  String?  // App version when token was registered
+    osVersion   String?  // Operating system version
+    deviceModel String?  // Device model (e.g., "Pixel 7", "iPhone 14")
+    isActive    Boolean  @default(true) // Whether token is still valid
+    lastUsedAt  DateTime @default(now()) // Last time token was used
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    
+    // Relations
+    user        User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+    subscriptions DeviceTopicSubscription[]
+    notifications SentNotification[]
+    
+    @@index([userId])
+    @@index([fcmToken])
+    @@index([isActive])
+    @@index([platform])
+}
+
+// Topic subscriptions for targeted notifications
+model Topic {
+    id          String   @id @default(cuid())
+    name        String   @unique // e.g., "news", "promotions", "user_123"
+    description String?
+    isActive    Boolean  @default(true)
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    
+    // Relations
+    subscriptions DeviceTopicSubscription[]
+    notifications SentNotification[]
+    
+    @@index([name])
+    @@index([isActive])
+}
+
+// Many-to-many relationship between devices and topics
+model DeviceTopicSubscription {
+    id        String   @id @default(cuid())
+    deviceId  String
+    topicId   String
+    isActive  Boolean  @default(true)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    
+    // Relations
+    device    DeviceToken @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+    topic     Topic       @relation(fields: [topicId], references: [id], onDelete: Cascade)
+    
+    @@unique([deviceId, topicId])
+    @@index([deviceId])
+    @@index([topicId])
+    @@index([isActive])
+}
+
+// Track sent notifications for analytics and debugging
+model SentNotification {
+    id              String   @id @default(cuid())
+    deviceId        String?  // Can be null for broadcast notifications
+    topicId         String?  // Can be null for direct device notifications
+    title           String
+    body            String
+    data            Json?    // Additional payload data
+    notificationId  String?  // FCM message ID
+    status          String   // 'sent', 'delivered', 'failed', 'pending'
+    errorMessage    String?  // Error details if failed
+    sentAt          DateTime @default(now())
+    deliveredAt     DateTime?
+    
+    // Relations
+    device          DeviceToken? @relation(fields: [deviceId], references: [id], onDelete: SetNull)
+    topic           Topic?       @relation(fields: [topicId], references: [id], onDelete: SetNull)
+    
+    @@index([deviceId])
+    @@index([topicId])
+    @@index([status])
+    @@index([sentAt])
+}
+
+// Notification templates for reusable content
+model NotificationTemplate {
+    id          String   @id @default(cuid())
+    name        String   @unique
+    title       String
+    body        String
+    data        Json?    // Default payload data
+    isActive    Boolean  @default(true)
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    
+    @@index([name])
+    @@index([isActive])
+}
+
+// User notification preferences
+model UserNotificationPreferences {
+    id                    String   @id @default(cuid())
+    userId                String   @unique
+    pushEnabled           Boolean  @default(true)
+    marketingEnabled      Boolean  @default(true)
+    newsEnabled           Boolean  @default(true)
+    reminderEnabled       Boolean  @default(true)
+    quietHoursStart       String?  // e.g., "22:00"
+    quietHoursEnd         String?  // e.g., "08:00"
+    timezone              String?  // e.g., "America/New_York"
+    createdAt             DateTime @default(now())
+    updatedAt             DateTime @updatedAt
+    
+    // Relations
+    user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    
+    @@index([userId])
+}
+
+// Update User model to include new relations
