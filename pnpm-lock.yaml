@@ -7,6 +7,19 @@ settings:
 importers:
 
   .:
+    dependencies:
+      '@react-native-community/cli-platform-android':
+        specifier: 20.0.0
+        version: 20.0.0
+      '@react-native-community/cli-platform-ios':
+        specifier: 20.0.0
+        version: 20.0.0
+      '@rnx-kit/metro-config':
+        specifier: ^2.1.1
+        version: 2.1.1(@react-native/metro-config@0.81.4(@babel/core@7.28.4))(react-native@0.81.4(@babel/core@7.28.4)(@react-native-community/cli@20.0.0(typescript@5.9.2))(@react-native/metro-config@0.81.4(@babel/core@7.28.4))(@types/react@19.1.0)(react@19.1.0))(react@19.1.0)
+      '@rnx-kit/metro-resolver-symlinks':
+        specifier: ^0.2.6
+        version: 0.2.6
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:*
@@ -128,10 +141,10 @@ importers:
         version: 11.5.1(typescript@5.9.2)
       next:
         specifier: ^15.2.3
-        version: 15.5.3(react-dom@19.1.1(react@19.1.0))(react@19.1.0)
+        version: 15.5.3(@babel/core@7.28.4)(react-dom@19.1.1(react@19.1.0))(react@19.1.0)
       next-auth:
         specifier: 5.0.0-beta.25
-        version: 5.0.0-beta.25(next@15.5.3(react-dom@19.1.1(react@19.1.0))(react@19.1.0))(react@19.1.0)
+        version: 5.0.0-beta.25(next@15.5.3(@babel/core@7.28.4)(react-dom@19.1.1(react@19.1.0))(react@19.1.0))(react@19.1.0)
       react:
         specifier: ^19.0.0
         version: 19.1.0
@@ -1514,6 +1527,42 @@ packages:
     peerDependenciesMeta:
       '@types/react':
         optional: true
+
+  '@rnx-kit/console@2.0.0':
+    resolution: {integrity: sha512-8kyM0TUWpawWlaypHKWLgJjPoF5HcsjIxx9LSnYM8VgwBW1gOl2cCDhPYaeS8IG9m0fi4rMtQD8OJqmwpJ2jEg==}
+    engines: {node: '>=16.17'}
+
+  '@rnx-kit/metro-config@2.1.1':
+    resolution: {integrity: sha512-BwqNz3EDE8LwZdgjdzDP0TEok9+Zr2PkCWtLhS4ilfhpznPxkwmf81Mm1a6e/WPbVnnoVkT8VJOc5uGNEr/N8g==}
+    engines: {node: '>=16.17'}
+    peerDependencies:
+      '@react-native/metro-config': '*'
+      react: '*'
+      react-native: '*'
+    peerDependenciesMeta:
+      '@react-native/metro-config':
+        optional: true
+
+  '@rnx-kit/metro-resolver-symlinks@0.2.6':
+    resolution: {integrity: sha512-OmSo4eRjDDCy87zBlZjDKMEpJzPgQm6zaIsWL9Zs7GcvTA90/DKj0f6/ktoi8wZMheTm5SddofLX5yiK44Maww==}
+    engines: {node: '>=16.17'}
+    peerDependencies:
+      oxc-resolver: ^11.0.0
+    peerDependenciesMeta:
+      oxc-resolver:
+        optional: true
+
+  '@rnx-kit/tools-node@3.0.2':
+    resolution: {integrity: sha512-nz0kq7FxJ89Vh5NLHZjmexl3sdGeoPaPZMSWQhW6g9JzryGVdU+CyLQtQbajtwaDMQB2qH/IqpmOzAxNFr5pgg==}
+    engines: {node: '>=16.17'}
+
+  '@rnx-kit/tools-react-native@2.2.0':
+    resolution: {integrity: sha512-VTOtlHibOVvC9sulDTy+59vuIl3O8ssiC9f1k+TLZc5+AmFcLehg8Zs4MP09sQd6ngjeboRDrAf5LUpFZ3g/cQ==}
+    engines: {node: '>=16.17'}
+
+  '@rnx-kit/tools-workspaces@0.2.3':
+    resolution: {integrity: sha512-nJ1aRBqUoEPYVdc9cYZtpR6k5F+DcdtLWdlSAGd9f1HU2tqvDpRJhOId9uY3T57fC+YVtPijlp9/55gNGsaiJw==}
+    engines: {node: '>=16.17'}
 
   '@rtsao/scc@1.1.0':
     resolution: {integrity: sha512-zt6OdqaDoOnJ1ZYsCYGt9YmWzDXl4vQdKTyJev62gFhRGKdx7mcT54V9KIjg+d2wi9EXsPvAPKe7i7WjfVWB8g==}
@@ -4291,6 +4340,10 @@ packages:
     resolution: {integrity: sha512-FS+XFBNvn3GTAWq26joslQgWNoFu08F4kl0J4CgdNKADkdSGXQyTCnKteIAJy96Br6YbpEU1LSzV5dYtjMkMDg==}
     engines: {node: '>=0.10.0'}
 
+  read-yaml-file@2.1.0:
+    resolution: {integrity: sha512-UkRNRIwnhG+y7hpqnycCL/xbTk7+ia9VuVTC0S+zVbwd65DI9eUpRMfsWIGrCWxTU/mi+JW8cHQCrv+zfCbEPQ==}
+    engines: {node: '>=10.13'}
+
   readable-stream@3.6.2:
     resolution: {integrity: sha512-9u/sniCrY3D5WdsERHzHE4G2YCXqoG5FTHUiCC4SIbr6XcLZBY05ya9EKjYek9O5xOAwjGq+1JdGBAS7Q9ScoA==}
     engines: {node: '>= 6'}
@@ -6611,6 +6664,39 @@ snapshots:
       react-native: 0.81.4(@babel/core@7.28.4)(@react-native-community/cli@20.0.0(typescript@5.9.2))(@react-native/metro-config@0.81.4(@babel/core@7.28.4))(@types/react@19.1.0)(react@19.1.0)
     optionalDependencies:
       '@types/react': 19.1.0
+
+  '@rnx-kit/console@2.0.0': {}
+
+  '@rnx-kit/metro-config@2.1.1(@react-native/metro-config@0.81.4(@babel/core@7.28.4))(react-native@0.81.4(@babel/core@7.28.4)(@react-native-community/cli@20.0.0(typescript@5.9.2))(@react-native/metro-config@0.81.4(@babel/core@7.28.4))(@types/react@19.1.0)(react@19.1.0))(react@19.1.0)':
+    dependencies:
+      '@rnx-kit/tools-node': 3.0.2
+      '@rnx-kit/tools-react-native': 2.2.0
+      '@rnx-kit/tools-workspaces': 0.2.3
+      react: 19.1.0
+      react-native: 0.81.4(@babel/core@7.28.4)(@react-native-community/cli@20.0.0(typescript@5.9.2))(@react-native/metro-config@0.81.4(@babel/core@7.28.4))(@types/react@19.1.0)(react@19.1.0)
+    optionalDependencies:
+      '@react-native/metro-config': 0.81.4(@babel/core@7.28.4)
+
+  '@rnx-kit/metro-resolver-symlinks@0.2.6':
+    dependencies:
+      '@rnx-kit/console': 2.0.0
+      '@rnx-kit/tools-node': 3.0.2
+      '@rnx-kit/tools-react-native': 2.2.0
+      enhanced-resolve: 5.18.3
+
+  '@rnx-kit/tools-node@3.0.2': {}
+
+  '@rnx-kit/tools-react-native@2.2.0':
+    dependencies:
+      '@rnx-kit/tools-node': 3.0.2
+
+  '@rnx-kit/tools-workspaces@0.2.3':
+    dependencies:
+      fast-glob: 3.3.3
+      find-up: 5.0.0
+      micromatch: 4.0.8
+      read-yaml-file: 2.1.0
+      strip-json-comments: 3.1.1
 
   '@rtsao/scc@1.1.0': {}
 
@@ -9464,13 +9550,13 @@ snapshots:
 
   negotiator@0.6.4: {}
 
-  next-auth@5.0.0-beta.25(next@15.5.3(react-dom@19.1.1(react@19.1.0))(react@19.1.0))(react@19.1.0):
+  next-auth@5.0.0-beta.25(next@15.5.3(@babel/core@7.28.4)(react-dom@19.1.1(react@19.1.0))(react@19.1.0))(react@19.1.0):
     dependencies:
       '@auth/core': 0.37.2
-      next: 15.5.3(react-dom@19.1.1(react@19.1.0))(react@19.1.0)
+      next: 15.5.3(@babel/core@7.28.4)(react-dom@19.1.1(react@19.1.0))(react@19.1.0)
       react: 19.1.0
 
-  next@15.5.3(react-dom@19.1.1(react@19.1.0))(react@19.1.0):
+  next@15.5.3(@babel/core@7.28.4)(react-dom@19.1.1(react@19.1.0))(react@19.1.0):
     dependencies:
       '@next/env': 15.5.3
       '@swc/helpers': 0.5.15
@@ -9478,7 +9564,7 @@ snapshots:
       postcss: 8.4.31
       react: 19.1.0
       react-dom: 19.1.1(react@19.1.0)
-      styled-jsx: 5.1.6(react@19.1.0)
+      styled-jsx: 5.1.6(@babel/core@7.28.4)(react@19.1.0)
     optionalDependencies:
       '@next/swc-darwin-arm64': 15.5.3
       '@next/swc-darwin-x64': 15.5.3
@@ -9864,6 +9950,11 @@ snapshots:
 
   react@19.1.0: {}
 
+  read-yaml-file@2.1.0:
+    dependencies:
+      js-yaml: 4.1.0
+      strip-bom: 4.0.0
+
   readable-stream@3.6.2:
     dependencies:
       inherits: 2.0.4
@@ -10246,10 +10337,12 @@ snapshots:
 
   strnum@1.1.2: {}
 
-  styled-jsx@5.1.6(react@19.1.0):
+  styled-jsx@5.1.6(@babel/core@7.28.4)(react@19.1.0):
     dependencies:
       client-only: 0.0.1
       react: 19.1.0
+    optionalDependencies:
+      '@babel/core': 7.28.4
 
   superjson@2.2.2:
     dependencies:

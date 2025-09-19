@@ -20,5 +20,11 @@
   "engines": {
     "node": ">=18"
   },
-  "packageManager": "pnpm@10.17.0"
+  "packageManager": "pnpm@10.17.0",
+  "dependencies": {
+    "@react-native-community/cli-platform-android": "20.0.0",
+    "@react-native-community/cli-platform-ios": "20.0.0",
+    "@rnx-kit/metro-config": "^2.1.1",
+    "@rnx-kit/metro-resolver-symlinks": "^0.2.6"
+  }
 }
