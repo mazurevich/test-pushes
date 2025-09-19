@@ -16,6 +16,10 @@
     "dev": {
       "cache": false,
       "persistent": true
+    },
+    "android": {
+      "cache": false,
+      "persistent": true
     }
   }
 }
