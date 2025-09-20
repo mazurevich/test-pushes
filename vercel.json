@@ -1,7 +1,0 @@
-{
-  "buildCommand": "cd apps/pushes-sender && pnpm build",
-  "outputDirectory": "apps/pushes-sender/.next",
-  "installCommand": "pnpm install",
-  "framework": "nextjs",
-  "rootDirectory": "apps/pushes-sender"
-}
