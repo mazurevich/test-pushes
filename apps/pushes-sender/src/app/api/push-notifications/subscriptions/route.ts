@@ -77,7 +77,7 @@ export async function GET(request: NextRequest) {
         {
           success: false,
           message: "Validation error",
-          errors: error.errors,
+          errors: z.treeifyError(error) ?? "",
         },
         { status: 400 },
       );

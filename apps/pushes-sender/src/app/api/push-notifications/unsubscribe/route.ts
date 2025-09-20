@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { db } from "~/server/db";
 
@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
         {
           success: false,
           message: "Validation error",
-          errors: error.errors,
+          errors: z.treeifyError(error) ?? "",
         },
         { status: 400 },
       );

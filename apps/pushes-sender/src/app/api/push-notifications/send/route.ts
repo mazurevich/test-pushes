@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { notificationService } from "~/server/services/notificationService";
 
@@ -8,8 +8,8 @@ const sendNotificationSchema = z.object({
   payload: z.object({
     title: z.string().min(1, "Title is required"),
     body: z.string().min(1, "Body is required"),
-    data: z.record(z.string()).optional(),
-    imageUrl: z.string().url().optional(),
+    data: z.record(z.string(), z.string()).optional(),
+    imageUrl: z.url().optional(),
     clickAction: z.string().optional(),
   }),
   dryRun: z.boolean().optional().default(false),
@@ -132,7 +132,7 @@ export async function POST(request: NextRequest) {
         {
           success: false,
           message: "Validation error",
-          errors: error.errors,
+          errors: z.treeifyError(error) ?? "",
         },
         { status: 400 },
       );
