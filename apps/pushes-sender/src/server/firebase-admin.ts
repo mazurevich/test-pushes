@@ -76,15 +76,18 @@ const initializeFirebaseAdmin = () => {
 
   if (!serviceAccountKey) {
     throw new Error(
-      "FIREBASE_SERVICE_ACCOUNT_KEY environment variable is required",
+      "FIREBASE_SERVICE_ACCOUNT_KEY environment variable is required. Please set it in your Vercel environment variables.",
     );
   }
 
   let serviceAccount: ServiceAccount;
   try {
     serviceAccount = serviceAccountSchema.parse(JSON.parse(serviceAccountKey));
-  } catch {
-    throw new Error("Invalid FIREBASE_SERVICE_ACCOUNT_KEY JSON format");
+  } catch (error) {
+    console.error("Error parsing FIREBASE_SERVICE_ACCOUNT_KEY:", error);
+    throw new Error(
+      "Invalid FIREBASE_SERVICE_ACCOUNT_KEY JSON format. Please ensure it's a valid JSON string.",
+    );
   }
 
   return initializeApp({
