@@ -124,13 +124,13 @@ export const SendButton = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6">
-      <h1 className="text-3xl font-bold text-center mb-8">Push Notification Sender</h1>
+      <h1 className="text-3xl font-bold text-center mb-8 text-black">Push Notification Sender</h1>
       
       {/* Notification Stats */}
       {stats && (
         <div className="bg-gray-100 p-4 rounded-lg">
-          <h2 className="text-lg font-semibold mb-2">Notification Statistics</h2>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-sm">
+          <h2 className="text-lg font-semibold mb-2 text-black">Notification Statistics</h2>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-sm text-black">
             <div>Total: {stats.stats.total}</div>
             <div>Sent: {stats.stats.sent}</div>
             <div>Delivered: {stats.stats.delivered}</div>
@@ -142,24 +142,24 @@ export const SendButton = () => {
 
       {/* Notification Content */}
       <div className="bg-white p-6 rounded-lg shadow">
-        <h2 className="text-xl font-semibold mb-4">Notification Content</h2>
+        <h2 className="text-xl font-semibold mb-4 text-black">Notification Content</h2>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-1">Title</label>
+            <label className="block text-sm font-medium mb-1 text-black">Title</label>
             <input
               type="text"
               value={notificationTitle}
               onChange={(e) => setNotificationTitle(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-md"
+              className="w-full p-2 border border-gray-300 rounded-md text-black"
               placeholder="Notification title"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Body</label>
+            <label className="block text-sm font-medium mb-1 text-black">Body</label>
             <textarea
               value={notificationBody}
               onChange={(e) => setNotificationBody(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-md h-20"
+              className="w-full p-2 border border-gray-300 rounded-md h-20 text-black"
               placeholder="Notification body"
             />
           </div>
@@ -171,8 +171,8 @@ export const SendButton = () => {
               onChange={(e) => setIsDryRun(e.target.checked)}
               className="rounded"
             />
-            <label htmlFor="dryRun" className="text-sm">
-              Dry Run (test mode - won't send actual notifications)
+            <label htmlFor="dryRun" className="text-sm text-black">
+              Dry Run (test mode - won&apos;t send actual notifications)
             </label>
           </div>
         </div>
@@ -182,18 +182,18 @@ export const SendButton = () => {
       <div className="grid md:grid-cols-2 gap-6">
         {/* Send to User */}
         <div className="bg-white p-6 rounded-lg shadow">
-          <h3 className="text-lg font-semibold mb-4">Send to User</h3>
+          <h3 className="text-lg font-semibold mb-4 text-black">Send to User</h3>
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium mb-1">Select User</label>
+              <label className="block text-sm font-medium mb-1 text-black">Select User</label>
               <select
                 value={selectedUserId}
                 onChange={(e) => setSelectedUserId(e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded-md"
+                className="w-full p-2 border border-gray-300 rounded-md text-black"
               >
                 <option value="">Select a user...</option>
                 {usersTokens?.map((token) => (
-                  <option key={token.id} value={token.userId || ""}>
+                  <option key={token.id} value={token.userId ?? ""}>
                     {token.userId ? `User ${token.userId}` : "Anonymous"} - {token.platform}
                   </option>
                 ))}
@@ -211,14 +211,14 @@ export const SendButton = () => {
 
         {/* Send to Platform */}
         <div className="bg-white p-6 rounded-lg shadow">
-          <h3 className="text-lg font-semibold mb-4">Send to Platform</h3>
+          <h3 className="text-lg font-semibold mb-4 text-black">Send to Platform</h3>
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium mb-1">Platform</label>
+              <label className="block text-sm font-medium mb-1 text-black">Platform</label>
               <select
                 value={selectedPlatform}
                 onChange={(e) => setSelectedPlatform(e.target.value as "android" | "ios" | "web")}
-                className="w-full p-2 border border-gray-300 rounded-md"
+                className="w-full p-2 border border-gray-300 rounded-md text-black"
               >
                 <option value="android">Android</option>
                 <option value="ios">iOS</option>
@@ -238,7 +238,7 @@ export const SendButton = () => {
 
       {/* Send to All Devices */}
       <div className="bg-white p-6 rounded-lg shadow">
-        <h3 className="text-lg font-semibold mb-4">Send to All Devices</h3>
+        <h3 className="text-lg font-semibold mb-4 text-black">Send to All Devices</h3>
         <button
           onClick={handleSendToAllDevices}
           disabled={isLoading}
@@ -251,7 +251,7 @@ export const SendButton = () => {
       {/* Send to Topics */}
       {topics && topics.topics.length > 0 && (
         <div className="bg-white p-6 rounded-lg shadow">
-          <h3 className="text-lg font-semibold mb-4">Send to Topics</h3>
+          <h3 className="text-lg font-semibold mb-4 text-black">Send to Topics</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
             {topics.topics.map((topic) => (
               <button

@@ -1,6 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import { db } from "../db";
 import { messaging } from "../firebase-admin";
+import type { SendResponse } from "firebase-admin/messaging";
 
 export interface NotificationPayload {
   title: string;
@@ -26,6 +27,13 @@ export interface NotificationResult {
 }
 
 export class NotificationService {
+  async sendAll(
+    payload: NotificationPayload,
+    dryRun = false,
+  ): Promise<NotificationResult[]> {
+    return this.sendToAllDevices(payload, dryRun);
+  }
+
   /**
    * Send notification to specific FCM tokens
    */
@@ -74,7 +82,7 @@ export class NotificationService {
 
       const results: NotificationResult[] = [];
 
-      response.responses.forEach((resp: any, idx: number) => {
+      response.responses.forEach((resp: SendResponse, idx: number) => {
         if (resp.success) {
           results.push({
             success: true,
@@ -84,7 +92,7 @@ export class NotificationService {
         } else {
           results.push({
             success: false,
-            error: resp.error?.message || "Unknown error",
+            error: resp.error?.message ?? "Unknown error",
             token: tokens[idx],
           });
         }

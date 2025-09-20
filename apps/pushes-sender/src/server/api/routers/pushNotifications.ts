@@ -34,7 +34,7 @@ const notificationPreferencesSchema = z.object({
 const notificationPayloadSchema = z.object({
   title: z.string().min(1, "Title is required"),
   body: z.string().min(1, "Body is required"),
-  data: z.record(z.string()).optional(),
+  data: z.record(z.string(), z.string()).optional(),
   imageUrl: z.string().url().optional(),
   clickAction: z.string().optional(),
 });
@@ -268,14 +268,12 @@ export const pushNotificationRouter = createTRPCRouter({
           where: { name: input.topicName },
         });
 
-        if (!topic) {
-          topic = await ctx.db.topic.create({
-            data: {
-              name: input.topicName,
-              description: `Auto-created topic: ${input.topicName}`,
-            },
-          });
-        }
+        topic ??= await ctx.db.topic.create({
+          data: {
+            name: input.topicName,
+            description: `Auto-created topic: ${input.topicName}`,
+          },
+        });
 
         // This would need the deviceId from the request context
         // For now, we'll return the topic info
@@ -320,14 +318,12 @@ export const pushNotificationRouter = createTRPCRouter({
           where: { name: input.topicName },
         });
 
-        if (!topic) {
-          topic = await ctx.db.topic.create({
-            data: {
-              name: input.topicName,
-              description: `Auto-created topic: ${input.topicName}`,
-            },
-          });
-        }
+        topic ??= await ctx.db.topic.create({
+          data: {
+            name: input.topicName,
+            description: `Auto-created topic: ${input.topicName}`,
+          },
+        });
 
         // Create subscription
         const subscription = await ctx.db.deviceTopicSubscription.upsert({
@@ -432,13 +428,11 @@ export const pushNotificationRouter = createTRPCRouter({
       });
 
       // Create default preferences if none exist
-      if (!preferences) {
-        preferences = await ctx.db.userNotificationPreferences.create({
-          data: {
-            userId,
-          },
-        });
-      }
+      preferences ??= await ctx.db.userNotificationPreferences.create({
+        data: {
+          userId,
+        },
+      });
 
       return {
         success: true,
