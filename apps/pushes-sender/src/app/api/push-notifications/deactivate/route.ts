@@ -9,7 +9,7 @@ const deactivateSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
+    const body = (await request.json()) as unknown;
     const validatedData = deactivateSchema.parse(body);
 
     // Find and deactivate token
@@ -59,11 +59,12 @@ export async function POST(request: NextRequest) {
     console.error("Error deactivating token:", error);
 
     if (error instanceof z.ZodError) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      console.log(z.prettifyError(error));
       return NextResponse.json(
         {
           success: false,
           message: "Validation error",
-          errors: z.treeifyError(error) ?? "",
         },
         { status: 400 },
       );

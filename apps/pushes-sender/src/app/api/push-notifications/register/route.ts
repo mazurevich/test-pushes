@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { db } from "~/server/db";
 
@@ -15,7 +15,7 @@ const registerTokenSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
+    const body = (await request.json()) as unknown;
     const validatedData = registerTokenSchema.parse(body);
 
     // Check if token already exists
@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
       deviceToken = await db.deviceToken.update({
         where: { fcmToken: validatedData.fcmToken },
         data: {
-          userId: validatedData.userId || existingToken.userId,
+          userId: validatedData.userId ?? existingToken.userId,
           deviceId: validatedData.deviceId,
           platform: validatedData.platform,
           appVersion: validatedData.appVersion,
@@ -75,11 +75,13 @@ export async function POST(request: NextRequest) {
     console.error("Error registering FCM token:", error);
 
     if (error instanceof z.ZodError) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      console.log(z.prettifyError(error));
       return NextResponse.json(
         {
           success: false,
           message: "Validation error",
-          errors: z.treeifyError(error) ?? "",
+          // errors: z.prettifyError(error as z.ZodError),
         },
         { status: 400 },
       );

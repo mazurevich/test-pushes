@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { db } from "~/server/db";
 
@@ -10,7 +10,7 @@ const subscribeSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
+    const body = (await request.json()) as unknown;
     const validatedData = subscribeSchema.parse(body);
 
     // Find device token
@@ -33,14 +33,12 @@ export async function POST(request: NextRequest) {
       where: { name: validatedData.topicName },
     });
 
-    if (!topic) {
-      topic = await db.topic.create({
-        data: {
-          name: validatedData.topicName,
-          description: `Auto-created topic: ${validatedData.topicName}`,
-        },
-      });
-    }
+    topic ??= await db.topic.create({
+      data: {
+        name: validatedData.topicName,
+        description: `Auto-created topic: ${validatedData.topicName}`,
+      },
+    });
 
     // Create or update subscription
     const subscription = await db.deviceTopicSubscription.upsert({
@@ -77,11 +75,12 @@ export async function POST(request: NextRequest) {
     console.error("Error subscribing to topic:", error);
 
     if (error instanceof z.ZodError) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      console.log(z.prettifyError(error));
       return NextResponse.json(
         {
           success: false,
           message: "Validation error",
-          errors: z.treeifyError(error) ?? "",
         },
         { status: 400 },
       );

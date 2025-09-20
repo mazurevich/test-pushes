@@ -1,7 +1,8 @@
+import type { Prisma } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
+import type { SendResponse } from "firebase-admin/messaging";
 import { db } from "../db";
 import { messaging } from "../firebase-admin";
-import type { SendResponse } from "firebase-admin/messaging";
 
 export interface NotificationPayload {
   title: string;
@@ -52,7 +53,7 @@ export class NotificationService {
         body: payload.body,
         imageUrl: payload.imageUrl,
       },
-      data: payload.data || {},
+      data: payload.data ?? {},
       android: {
         notification: {
           clickAction: payload.clickAction,
@@ -153,7 +154,7 @@ export class NotificationService {
         body: payload.body,
         imageUrl: payload.imageUrl,
       },
-      data: payload.data || {},
+      data: payload.data ?? {},
       android: {
         notification: {
           clickAction: payload.clickAction,
@@ -272,10 +273,10 @@ export class NotificationService {
             topicId,
             title: payload.title,
             body: payload.body,
-            data: payload.data || {},
-            notificationId: result.messageId || null,
+            data: payload.data ?? {},
+            notificationId: result.messageId ?? null,
             status,
-            errorMessage: result.error || null,
+            errorMessage: result.error ?? null,
             sentAt: new Date(),
             deliveredAt: status === "delivered" ? new Date() : null,
           },
@@ -300,7 +301,7 @@ export class NotificationService {
     failed: number;
     pending: number;
   }> {
-    const whereClause: any = {};
+    const whereClause: Prisma.SentNotificationWhereInput = {};
 
     if (startDate || endDate) {
       whereClause.sentAt = {};

@@ -10,7 +10,7 @@ const unsubscribeSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
+    const body = (await request.json()) as unknown;
     const validatedData = unsubscribeSchema.parse(body);
 
     // Find device token
@@ -66,11 +66,12 @@ export async function POST(request: NextRequest) {
     console.error("Error unsubscribing from topic:", error);
 
     if (error instanceof z.ZodError) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      console.log(z.prettifyError(error));
       return NextResponse.json(
         {
           success: false,
           message: "Validation error",
-          errors: z.treeifyError(error) ?? "",
         },
         { status: 400 },
       );

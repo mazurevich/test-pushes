@@ -9,7 +9,7 @@ const sendNotificationSchema = z.object({
     title: z.string().min(1, "Title is required"),
     body: z.string().min(1, "Body is required"),
     data: z.record(z.string(), z.string()).optional(),
-    imageUrl: z.url().optional(),
+    imageUrl: z.string().url().optional(),
     clickAction: z.string().optional(),
   }),
   dryRun: z.boolean().optional().default(false),
@@ -22,7 +22,7 @@ const sendNotificationSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
+    const body = (await request.json()) as unknown;
     const validatedData = sendNotificationSchema.parse(body);
 
     let result;
@@ -128,11 +128,12 @@ export async function POST(request: NextRequest) {
     console.error("Error sending notification:", error);
 
     if (error instanceof z.ZodError) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      console.log(z.prettifyError(error));
       return NextResponse.json(
         {
           success: false,
           message: "Validation error",
-          errors: z.treeifyError(error) ?? "",
         },
         { status: 400 },
       );
